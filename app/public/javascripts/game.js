@@ -4,14 +4,20 @@ var NoGameComponent = React.createClass({
 		return {
 			no : [1,2,3,4,5,6,7,8,9].sort(function(){ 
 				return 0.5 - Math.random() 
-			})
+			}),
+			currentNo : 1
 		}
+	},
+	changeCurrentNo:function(current){
+		this.setState({
+			currentNo : current
+		});
 	},
 	render:function(){
 		return (
 			<div>
 				<GameNoBox no={this.state.no}/>
-				<ChooseGameNo/>
+				<ChooseGameNo changeCurrentNo={this.changeCurrentNo}/>
 			</div>
 		)
 	}
@@ -84,7 +90,7 @@ var ChooseGameNo = React.createClass({
 	render:function(){
 		return (
 			<div>
-				<ChooseGameNoBox no={this.state.no} />
+				<ChooseGameNoBox no={this.state.no} changeCurrentNo={this.props.changeCurrentNo}/>
 			</div>
 		)
 	}
@@ -93,13 +99,14 @@ var ChooseGameNo = React.createClass({
 var ChooseGameNoBox = React.createClass({
 	render:function(){
 		var numbers = [];
+		var changeCurrentNo = this.props.changeCurrentNo;
 		this.props.no.forEach(function(no,index){
 			numbers.push(
-				<ChooseGameNoDetail no={no}/>
+				<ChooseGameNoDetail no={no} changeCurrentNo={changeCurrentNo}/>
 			);
 		});
 		return (
-			<div className='chooseNoBox' ref='chooseNoBox'>
+			<div className='chooseNoBox'>
 				{numbers}
 			</div>
 		)
@@ -112,13 +119,15 @@ var ChooseGameNoDetail = React.createClass({
 		}
 	},
 	handleClick:function(e){
+		
 		var currentNo = e.target.innerHTML;
-		Array.from(e.target.parentNode.childNodes).forEach(function(dom,index){
+		Array.prototype.slice.call(e.target.parentNode.childNodes).forEach(function(dom,index){
 			dom.style.background = "#FFFFFF";
 		});
-		this.setState({
-			isCurrent : true 
-		})
+		e.target.style.background = "#F923A3";
+		this.props.changeCurrentNo(currentNo);
+		console.log(currentNo)
+		console.log(game.state.currentNo)
 	},
 	render:function(){
 		var styleObj = {
