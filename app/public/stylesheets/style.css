@@ -7,7 +7,7 @@ body {
 a {
   color: #00B7FF;
 }
-h1{font-size: 2.6rem;text-align: center;margin:0;}
+h1{font-size: 2.6rem;text-align: center;margin:0;display: none;}
 .wrap{margin: 3px auto 5px auto;}
 .noBox{width: 27.6rem;overflow: hidden;border: 0.1rem solid #000;margin: 0 auto;}
 .noBox span{position:relative;color:#fff;width: 9rem;height:9rem;float: left; text-align: center;line-height:9rem;border: 0.1rem solid #000;font-size: 4rem;cursor: pointer;}
@@ -16,3 +16,7 @@ h1{font-size: 2.6rem;text-align: center;margin:0;}
 .noBox span em.back{background:#065ECA;}
 .chooseNoBox{width: 27.6rem;overflow: hidden;margin: 1.5rem auto 0 auto;}
 .chooseNoBox em{background:#color:#fff;width: 4rem;height:4rem;margin:0.65rem;font-weight:blod;font-style:normal;float: left; text-align: center;line-height:4rem;border: 0.1rem solid #000;font-size: 3rem;}
+.submit{margin: 1rem 0;font-size: 2rem;text-align: center;}
+.submit button{width: 10rem;height: 4rem;font-size: 2.4rem;border-radius:0.5rem;}
+.disabled .submit button{background: #9C9797;}
+.abled .submit button{background: #FFFFFF;}

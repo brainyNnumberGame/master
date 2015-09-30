@@ -2,10 +2,11 @@
 var NoGameComponent = React.createClass({
 	getInitialState:function(){
 		return {
-			no : [1,2,3,4,5,6,7,8,9].sort(function(){ 
-				return 0.5 - Math.random() 
-			}),
-			currentNo : 1
+			no : this.props.no,
+			initNo : this.props.initNo,
+			currentNo : this.props.current,
+			state : this.props.state,
+			canSubmit : this.props.canSubmit
 		}
 	},
 	changeCurrentNo:function(current){
@@ -13,11 +14,18 @@ var NoGameComponent = React.createClass({
 			currentNo : current
 		});
 	},
+	changeCansubmit:function(canSubmit){
+		this.setState({
+			canSubmit : canSubmit
+		});
+	},
 	render:function(){
+		var className = this.state.canSubmit == true ? 'abled' : 'disabled';
 		return (
-			<div>
-				<GameNoBox no={this.state.no}/>
-				<ChooseGameNo changeCurrentNo={this.changeCurrentNo}/>
+			<div className={className}>
+				<GameNoBox no={this.state.no} current={this.state.currentNo} state={this.state.state} changeCansubmit={this.changeCansubmit} canSubmit={this.state.canSubmit}/>
+				<ChooseGameNo changeCurrentNo={this.changeCurrentNo} current={this.state.currentNo}/>
+				<SubmitNo no={this.state.no} initNo={this.state.initNo} state={this.state.state} canSubmit={this.state.canSubmit}/>
 			</div>
 		)
 	}
@@ -26,10 +34,15 @@ var NoGameComponent = React.createClass({
 var GameNoBox = React.createClass({
 	render:function(){
 		var numbers = [];
+		var current = this.props.current;
+		var noArray = this.props.no;
+		var state = this.props.state;
+		var canSubmit = this.props.canSubmit;
+		var changeCansubmit = this.props.changeCansubmit;
 		this.props.no.forEach(function(no,index){
 			numbers.push(
 				
-				<GameNo no={no}/>
+				<GameNo no={no} current={current} index={index} noArray={noArray} state={state} changeCansubmit={changeCansubmit} canSubmit={canSubmit}/>
 			)
 		});
 		return (
@@ -45,16 +58,34 @@ var GameNo = React.createClass({
 		return {
 			styleClass : 'flip',
 			styleClassBack : 'back flip out',
-			styleClassFront : 'front flip'
+			styleClassFront : 'front flip',
+			currentNo : 1
 		}
 	},
 	handleClick:function(){
 		this.setState({
 			styleClassBack : 'back flip out',
-			styleClassFront : 'front flip in'
+			styleClassFront : 'front flip in',
 		});
+		this.props.no = this.props.current;
+		this.props.noArray[this.props.index] = parseInt(this.props.current); 
+		this.props.state[this.props.index] = true;
+
+		console.log(this.props.state)
+		var canSubmit = this.props.state[0];
+		this.props.state.forEach(function(item,index){
+			if(index == 0){
+				canSubmit = item;
+			}
+			canSubmit = canSubmit && item;
+		});
+		this.props.canSubmit = canSubmit;
+		this.props.changeCansubmit(canSubmit);
 	},
 	componentWillMount:function(){
+		this.setState({
+			currentNo : this.props.current
+		});
 		var self = this;
 		this.timer = setTimeout(function(){
 			self.setState({
@@ -70,10 +101,10 @@ var GameNo = React.createClass({
 	render:function(){
 		return (
 			<span onTouchStart={this.handleClick}>
-				<em className={this.state.styleClassFront} >
+				<em className={this.state.styleClassFront} ref='noItem'>
 					{this.props.no}
 				</em>
-				<em className={this.state.styleClassBack}>
+				<em className={this.state.styleClassBack} ref='noItem'>
 					
 				</em>
 			</span>
@@ -90,7 +121,7 @@ var ChooseGameNo = React.createClass({
 	render:function(){
 		return (
 			<div>
-				<ChooseGameNoBox no={this.state.no} changeCurrentNo={this.props.changeCurrentNo}/>
+				<ChooseGameNoBox no={this.state.no} changeCurrentNo={this.props.changeCurrentNo} current={this.props.current}/>
 			</div>
 		)
 	}
@@ -100,9 +131,10 @@ var ChooseGameNoBox = React.createClass({
 	render:function(){
 		var numbers = [];
 		var changeCurrentNo = this.props.changeCurrentNo;
+		var current = this.props.current;
 		this.props.no.forEach(function(no,index){
 			numbers.push(
-				<ChooseGameNoDetail no={no} changeCurrentNo={changeCurrentNo}/>
+				<ChooseGameNoDetail no={no} changeCurrentNo={changeCurrentNo} current={current}/>
 			);
 		});
 		return (
@@ -126,8 +158,13 @@ var ChooseGameNoDetail = React.createClass({
 		});
 		e.target.style.background = "#F923A3";
 		this.props.changeCurrentNo(currentNo);
-		console.log(currentNo)
-		console.log(game.state.currentNo)
+	},
+	componentWillMount :function(){
+		if(this.props.no == this.props.current){
+			this.setState({
+				isCurrent : true		
+			});
+		}
 	},
 	render:function(){
 		var styleObj = {
@@ -140,19 +177,68 @@ var ChooseGameNoDetail = React.createClass({
 		)
 	}
 });
-/*game render*/
-var game = React.render(
-	<NoGameComponent/>,
-	document.getElementById('gameCoreCon'),
-	function(){
-		console.log('done!');
+/*submit component*/
+var SubmitNo = React.createClass({
+	getInitialState:function(){
+		return {
+			resultNo : this.props.no,
+			initNo : this.props.initNo
+		}
+	},
+	submit:function(){
+		var canSubmit = this.props.canSubmit;
+		console.log(canSubmit)
+		if(canSubmit == false){
+			alert('请将全部数字翻过来再提交!');
+			return;
+		}
+		var initNo = this.state.initNo;
+		var gameResult = true;
+		this.state.resultNo.forEach(function(item,index){
+			if(item != initNo[index]){
+				gameResult = false;
+			}
+		});
+		if(gameResult == true){
+			alert("恭喜你,过关啦!");
+		}else{
+			alert("很遗憾,请继续努力!");
+		}
+	},
+	render:function(){
+		
+		return (
+			<div className='submit'>
+				<button onClick={this.submit}>提交</button>
+			</div>
+		)
 	}
-);
-/*choose game number render*/
-/*var chooseGameNo = React.render(
-	<ChooseGameNo/>,
-	document.getElementById('chooseGameNoCon'),
-	function(){
-		console.log('done!');
+});
+/*game init*/
+var gameInit = {
+	initState : [false,false,false,false,false,false,false,false,false],
+	noArray : [1,2,3,4,5,6,7,8,9],
+	initNo : [],
+	canSubmit : false,
+	run : function(){
+		var tempArray = this.noArray.slice(0);
+		this.initNo = tempArray.sort(function(){ 
+			return 0.5 - Math.random(); 
+		});
+		var originalNo = this.initNo.slice(0)
+		var currentNo = this.noArray[0];
+		var initState = this.initState;
+		var canSubmit = this.canSubmit;
+		game = React.render(
+			<NoGameComponent no={this.initNo} current={currentNo} initNo={originalNo} state={initState} canSubmit={canSubmit}/>,
+			document.getElementById('gameCoreCon'),
+			function(){
+				console.log('done!');
+			}
+		);
+		/*game.setState({
+			no : gameInit.initNo
+		});*/
 	}
-);*/
+};
+gameInit.run();
