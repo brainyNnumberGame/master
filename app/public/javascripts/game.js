@@ -200,9 +200,19 @@ var SubmitNo = React.createClass({
 			}
 		});
 		if(gameResult == true){
-			alert("恭喜你,过关啦!");
+			alert("恭喜你,过关啦,马上进入下一关!");
+			if(gameInit.currentStage < gameInit.stage.length - 1) {
+				gameInit.currentStage ++;
+				localStorage.setItem('stage',gameInit.currentStage);
+				document.location.reload();
+			}else{
+				alert('牛逼哄哄!通关啦!你是人类吗?');
+			}
+			
 		}else{
 			alert("很遗憾,请继续努力!");
+			localStorage.setItem('stage',gameInit.currentStage);
+			document.location.reload();
 		}
 	},
 	render:function(){
@@ -221,6 +231,7 @@ var gameInit = {
 	initNo : [],
 	canSubmit : false,
 	run : function(){
+		this.noArray = this.stage[this.currentStage];
 		var tempArray = this.noArray.slice(0);
 		this.initNo = tempArray.sort(function(){ 
 			return 0.5 - Math.random(); 
@@ -239,6 +250,20 @@ var gameInit = {
 		/*game.setState({
 			no : gameInit.initNo
 		});*/
-	}
+	},
+	stage : [
+		[0,0,0,0,0,0,0,0,parseInt(Math.random()*9)+1],
+		[0,0,0,0,0,0,0,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1],
+		[0,0,0,0,0,0,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1],
+		[0,0,0,0,0,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1],
+		[0,0,0,0,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1],
+		[0,0,0,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1],
+		[0,0,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1],
+		[0,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1],
+		[parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1]
+	],
+	currentStage : localStorage.getItem('stage') == null ? 0 : parseInt(localStorage.getItem('stage'))
 };
-gameInit.run();
+
+gameInit.run(gameInit.currentStage);
+
