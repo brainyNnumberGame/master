@@ -204,7 +204,7 @@ var SubmitNo = React.createClass({
 			if(gameInit.currentStage < gameInit.stage.length - 1) {
 				gameInit.currentStage ++;
 				localStorage.setItem('stage',gameInit.currentStage);
-				document.location.reload();
+				gameInit.restart();
 			}else{
 				alert('牛逼哄哄!通关啦!你是人类吗?');
 			}
@@ -212,7 +212,7 @@ var SubmitNo = React.createClass({
 		}else{
 			alert("很遗憾,请继续努力!");
 			localStorage.setItem('stage',gameInit.currentStage);
-			document.location.reload();
+			gameInit.restart();
 		}
 	},
 	render:function(){
@@ -220,6 +220,7 @@ var SubmitNo = React.createClass({
 		return (
 			<div className='submit'>
 				<button onClick={this.submit}>提交</button>
+				<button className='restart' onClick={gameInit.restart}>重来</button>
 			</div>
 		)
 	}
@@ -236,7 +237,7 @@ var gameInit = {
 		this.initNo = tempArray.sort(function(){ 
 			return 0.5 - Math.random(); 
 		});
-		var originalNo = this.initNo.slice(0)
+		var originalNo = this.initNo.slice(0);
 		var currentNo = this.noArray[0];
 		var initState = this.initState;
 		var canSubmit = this.canSubmit;
@@ -262,7 +263,13 @@ var gameInit = {
 		[0,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1],
 		[parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1]
 	],
-	currentStage : localStorage.getItem('stage') == null ? 0 : parseInt(localStorage.getItem('stage'))
+	currentStage : localStorage.getItem('stage') == null ? 0 : parseInt(localStorage.getItem('stage')),
+	restart : function(){
+		document.getElementById("gameCoreCon").innerHTML="";
+		gameInit.canSubmit = false;
+		gameInit.initState = [false,false,false,false,false,false,false,false,false];
+		gameInit.run(gameInit.currentStage);
+	}
 };
 
 gameInit.run(gameInit.currentStage);

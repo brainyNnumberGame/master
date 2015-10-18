@@ -20,3 +20,4 @@ h1{font-size: 2.6rem;text-align: center;margin:0;display: none;}
 .submit button{width: 10rem;height: 4rem;font-size: 2.4rem;border-radius:0.5rem;}
 .disabled .submit button{background: #9C9797;}
 .abled .submit button{background: #FFFFFF;}
+.restart{margin:0 0 0 2rem;}
