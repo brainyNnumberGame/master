@@ -102,9 +102,9 @@ var GameNo = React.createClass({
 		return (
 			<span onTouchStart={this.handleClick}>
 				<em className={this.state.styleClassFront} ref='noItem'>
-					{this.props.no}
+					<i className={'bg'+this.props.no}>{this.props.no}</i>
 				</em>
-				<em className={this.state.styleClassBack} ref='noItem'>
+				<em className={this.state.styleClassBack+' one'} ref='noItem'>
 					
 				</em>
 			</span>
