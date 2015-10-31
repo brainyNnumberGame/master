@@ -8,28 +8,40 @@ a {
   color: #00B7FF;
 }
 h1{font-size: 2.6rem;text-align: center;margin:0;display: none;}
-.wrap{margin: 3px auto 5px auto;}
+.wrap{margin:0 auto;}
 .noBox{width: 30.6rem;overflow: hidden;border: 0.1rem solid #000;margin: 0 auto;border: none;}
 .noBox span{position:relative;color:#fff;width: 9rem;height:9rem;float: left; text-align: center;line-height:9rem;border: 0.1rem solid #000;font-size: 4rem;cursor: pointer;border: none;margin: 0.5rem;}
 .noBox span em{display: block;width: 100%;height: 100%;position: absolute;top: 0;left: 0;}
 .noBox span em.front{background:#F923A3;background: none;}
 .noBox span em.back{background:#065ECA;}
 .noBox span em i{display: block;width: 100%;height: 100%;background-size: contain;background-repeat:no-repeat;text-indent: -200rem;}
-.noBox span em i.bg0{background-image: url('/images/numberpic1/0.png');}
-.noBox span em i.bg1{background-image: url('/images/numberpic1/1.png');}
-.noBox span em i.bg2{background-image: url('/images/numberpic1/2.png');}
-.noBox span em i.bg3{background-image: url('/images/numberpic1/3.png');}
-.noBox span em i.bg4{background-image: url('/images/numberpic1/4.png');}
-.noBox span em i.bg5{background-image: url('/images/numberpic1/5.png');}
-.noBox span em i.bg6{background-image: url('/images/numberpic1/6.png');}
-.noBox span em i.bg7{background-image: url('/images/numberpic1/7.png');}
-.noBox span em i.bg8{background-image: url('/images/numberpic1/8.png');}
-.noBox span em i.bg9{background-image: url('/images/numberpic1/9.png');}
+.noBox span em i.bg0{background-image: url('/images/numberpic3/0.png');}
+.noBox span em i.bg1{background-image: url('/images/numberpic3/1.png');}
+.noBox span em i.bg2{background-image: url('/images/numberpic3/2.png');}
+.noBox span em i.bg3{background-image: url('/images/numberpic3/3.png');}
+.noBox span em i.bg4{background-image: url('/images/numberpic3/4.png');}
+.noBox span em i.bg5{background-image: url('/images/numberpic3/5.png');}
+.noBox span em i.bg6{background-image: url('/images/numberpic3/6.png');}
+.noBox span em i.bg7{background-image: url('/images/numberpic3/7.png');}
+.noBox span em i.bg8{background-image: url('/images/numberpic3/8.png');}
+.noBox span em i.bg9{background-image: url('/images/numberpic3/9.png');}
 .noBox span em.one{background-color:#fff;background-size: contain;background-repeat: no-repeat;background-image: url('/images/numberpic1/nobg.png');}
-.chooseNoBox{width: 27.6rem;overflow: hidden;margin: 1.5rem auto 0 auto;}
-.chooseNoBox em{background:#color:#fff;width: 4rem;height:4rem;margin:0.65rem;font-weight:blod;font-style:normal;float: left; text-align: center;line-height:4rem;border: 0.1rem solid #000;font-size: 3rem;}
-.submit{margin: 1rem 0;font-size: 2rem;text-align: center;}
-.submit button{width: 10rem;height: 4rem;font-size: 2.4rem;border-radius:0.5rem;}
-.disabled .submit button{background: #9C9797;}
-.abled .submit button{background: #FFFFFF;}
-.restart{margin:0 0 0 2rem;}
+.chooseNoBox{width: 27.6rem;overflow: hidden;margin: 0.5rem auto 0 auto;}
+.chooseNoBox em{background:#color:#fff;width: 4rem;height:4rem;margin:0.65rem;font-weight:blod;font-style:normal;float: left; text-align: center;line-height:4rem;border: 0.1rem solid #DEA015;border-radius:0.5rem;font-size: 3rem;background-size: contain;background-repeat:no-repeat;text-indent: -200rem;}
+.chooseNoBox em.smbg0{background-image: url('/images/smallnumberpic1/0.png');}
+.chooseNoBox em.smbg1{background-image: url('/images/smallnumberpic1/1.png');}
+.chooseNoBox em.smbg2{background-image: url('/images/smallnumberpic1/2.png');}
+.chooseNoBox em.smbg3{background-image: url('/images/smallnumberpic1/3.png');}
+.chooseNoBox em.smbg4{background-image: url('/images/smallnumberpic1/4.png');}
+.chooseNoBox em.smbg5{background-image: url('/images/smallnumberpic1/5.png');}
+.chooseNoBox em.smbg6{background-image: url('/images/smallnumberpic1/6.png');}
+.chooseNoBox em.smbg7{background-image: url('/images/smallnumberpic1/7.png');}
+.chooseNoBox em.smbg8{background-image: url('/images/smallnumberpic1/8.png');}
+.chooseNoBox em.smbg9{background-image: url('/images/smallnumberpic1/9.png');}
+.buttonBox{margin: 1rem 0 0 3rem;font-size: 2rem;text-align: center;}
+.buttonBox button{width: 4rem;height: 4rem;margin:0 3rem 0 0;border:none;background-size: contain;background-repeat: no-repeat; text-indent: -200rem;}
+.buttonBox .submit{background-image: url('/images/submit.png');width: 5rem;height: 5rem;}
+.buttonBox .refresh{background-image: url('/images/refresh.png');}
+.buttonBox .restart{background-image: url('/images/restart.png');}
+.disabled .submit button{}
+.abled .submit button{}

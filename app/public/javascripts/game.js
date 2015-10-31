@@ -154,9 +154,9 @@ var ChooseGameNoDetail = React.createClass({
 		
 		var currentNo = e.target.innerHTML;
 		Array.prototype.slice.call(e.target.parentNode.childNodes).forEach(function(dom,index){
-			dom.style.background = "#FFFFFF";
+			dom.style.backgroundColor = "#FFFFFF";
 		});
-		e.target.style.background = "#F923A3";
+		e.target.style.backgroundColor = "#DEA015";
 		this.props.changeCurrentNo(currentNo);
 	},
 	componentWillMount :function(){
@@ -168,10 +168,10 @@ var ChooseGameNoDetail = React.createClass({
 	},
 	render:function(){
 		var styleObj = {
-			background:this.state.isCurrent ? '#F923A3' : '#FFFFFF'
+			backgroundColor:this.state.isCurrent ? '#DEA015' : '#FFFFFF'
 		};
 		return (
-			<em style={styleObj} onTouchStart={this.handleClick}>
+			<em style={styleObj} className={'smbg'+this.props.no} onTouchStart={this.handleClick}>
 				{this.props.no}
 			</em>
 		)
@@ -204,7 +204,7 @@ var SubmitNo = React.createClass({
 			if(gameInit.currentStage < gameInit.stage.length - 1) {
 				gameInit.currentStage ++;
 				localStorage.setItem('stage',gameInit.currentStage);
-				gameInit.restart();
+				gameInit.refresh();
 			}else{
 				alert('牛逼哄哄!通关啦!你是人类吗?');
 			}
@@ -212,15 +212,16 @@ var SubmitNo = React.createClass({
 		}else{
 			alert("很遗憾,请继续努力!");
 			localStorage.setItem('stage',gameInit.currentStage);
-			gameInit.restart();
+			gameInit.refresh();
 		}
 	},
 	render:function(){
 		
 		return (
-			<div className='submit'>
-				<button onClick={this.submit}>提交</button>
-				<button className='restart' onClick={gameInit.restart}>重来</button>
+			<div className='buttonBox'>
+				<button className='submit' onClick={this.submit}>提交</button>
+				<button className='refresh' onClick={gameInit.refresh}>重来</button>
+				<button className='restart' onClick={gameInit.restart}>重置</button>
 			</div>
 		)
 	}
@@ -264,11 +265,17 @@ var gameInit = {
 		[parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1,parseInt(Math.random()*9)+1]
 	],
 	currentStage : localStorage.getItem('stage') == null ? 0 : parseInt(localStorage.getItem('stage')),
-	restart : function(){
+	refresh : function(){
 		document.getElementById("gameCoreCon").innerHTML="";
 		gameInit.canSubmit = false;
 		gameInit.initState = [false,false,false,false,false,false,false,false,false];
 		gameInit.run(gameInit.currentStage);
+	},
+	restart : function(){
+		alert('有魄力，从头再来!')
+		gameInit.currentStage = 0;
+		localStorage.setItem('stage',0);
+		gameInit.refresh();
 	}
 };
 
