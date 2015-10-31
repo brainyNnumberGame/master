@@ -182,14 +182,21 @@ var SubmitNo = React.createClass({
 	getInitialState:function(){
 		return {
 			resultNo : this.props.no,
-			initNo : this.props.initNo
+			initNo : this.props.initNo,
+			tipsWords : '秒记',
+			tipsVisible : false,
+			hasCancelButton : false
 		}
 	},
 	submit:function(){
 		var canSubmit = this.props.canSubmit;
-		console.log(canSubmit)
 		if(canSubmit == false){
-			alert('请将全部数字翻过来再提交!');
+			// alert('请将全部数字翻过来再提交!');
+			this.setState({
+				tipsWords : '请将全部数字翻过来再提交!',
+				tipsVisible : true,
+				hasCancelButton : false
+			});
 			return;
 		}
 		var initNo = this.state.initNo;
@@ -200,28 +207,95 @@ var SubmitNo = React.createClass({
 			}
 		});
 		if(gameResult == true){
-			alert("恭喜你,过关啦,马上进入下一关!");
+			// alert("恭喜你,过关啦,马上进入下一关!");
+			this.setState({
+				tipsWords : '恭喜你,过关啦,马上进入下一关!',
+				tipsVisible : true,
+				hasCancelButton : false
+			});
 			if(gameInit.currentStage < gameInit.stage.length - 1) {
 				gameInit.currentStage ++;
 				localStorage.setItem('stage',gameInit.currentStage);
 				gameInit.refresh();
 			}else{
-				alert('牛逼哄哄!通关啦!你是人类吗?');
+				// alert('牛逼哄哄!通关啦!你是人类吗?');
+				this.setState({
+					tipsWords : '牛逼哄哄!通关啦!你是人类吗?',
+					tipsVisible : true,
+					hasCancelButton : false
+				});
 			}
 			
 		}else{
-			alert("很遗憾,请继续努力!");
+			// alert("很遗憾,请继续努力!");
+			this.setState({
+				tipsWords : '很遗憾,请继续努力!',
+				tipsVisible : true,
+				hasCancelButton : false
+			});
 			localStorage.setItem('stage',gameInit.currentStage);
 			gameInit.refresh();
 		}
 	},
+	refresh:function(){
+		gameInit.refresh();
+	},
+	restart:function(){
+		// alert('有魄力，从头再来!')
+		this.setState({
+			tipsWords : '大神，你确定你要重头再来？确定将从第一关开始，取消将接着目前进度继续。',
+			tipsVisible : true,
+			hasCancelButton : true
+		});
+		
+	},
 	render:function(){
+		return (
+			<div>
+				<div className='buttonBox'>
+					<button className='submit' onClick={this.submit}>提交</button>
+					<button className='refresh' onClick={this.refresh}>重来</button>
+					<button className='restart' onClick={this.restart}>重置</button>
+				</div>
+				<GameTips tipsWords={this.state.tipsWords} visible={this.state.tipsVisible} hasCancelButton={this.state.hasCancelButton}/>
+			</div>
+		)
+	}
+});
+/*game tips*/
+var GameTips = React.createClass({
+	getInitialState:function(){
+		return {
+			visible : this.props.visible,
+			tipsWords : this.props.tipsWords,
+			hasCancelButton : this.props.hasCancelButton
+		}
+	},
+	handleClickOk:function(){
+		gameInit.restart();
+	},
+	handleClickCancel:function(){
+		gameInit.refresh();
+		this.state.visible = false;
+	},
+	render:function(){
+		console.log(this.state)
+		var styleObjTips = {
+			display:this.props.visible == false ? 'none' : 'block'
+		};
+		var styleObjButtonCancel = {
+			display:this.props.hasCancelButton == false ? 'none' : 'inline-block'
+		};
 		
 		return (
-			<div className='buttonBox'>
-				<button className='submit' onClick={this.submit}>提交</button>
-				<button className='refresh' onClick={gameInit.refresh}>重来</button>
-				<button className='restart' onClick={gameInit.restart}>重置</button>
+			<div className='popWrap' style={styleObjTips}>
+				<div className='popwin'>
+					<div className='words'>{this.props.tipsWords}</div>
+					<div className='buttons'>
+						<button className='ok' onClick={this.handleClickOk}>确定</button>
+						<button style={styleObjButtonCancel} className='cancel' onClick={this.handleClickCancel}>取消</button>
+					</div>
+				</div>
 			</div>
 		)
 	}
@@ -272,7 +346,6 @@ var gameInit = {
 		gameInit.run(gameInit.currentStage);
 	},
 	restart : function(){
-		alert('有魄力，从头再来!')
 		gameInit.currentStage = 0;
 		localStorage.setItem('stage',0);
 		gameInit.refresh();

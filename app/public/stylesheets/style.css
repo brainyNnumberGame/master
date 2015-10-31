@@ -43,5 +43,9 @@ h1{font-size: 2.6rem;text-align: center;margin:0;display: none;}
 .buttonBox .submit{background-image: url('/images/submit.png');width: 5rem;height: 5rem;}
 .buttonBox .refresh{background-image: url('/images/refresh.png');}
 .buttonBox .restart{background-image: url('/images/restart.png');}
-.disabled .submit button{}
-.abled .submit button{}
+/*pop tips*/
+.popWrap{position: absolute;left:0;top:0;z-index: 8; text-align: center;width: 100%;height: 100%;}
+.popWrap .shade{position: absolute;left:0;top:0;width: 100%;height: 100%;background-color: #000;opacity: 0.2;z-index: 10;}
+.popWrap .popwin{width: 100%;height: 100%; z-index:12;background-color: #FFA706;font-size: 2.0rem;color:#ffffff;}
+.popWrap .popwin .words{padding: 20rem 0.5rem 0 0.5rem;}
+.popWrap .popwin button{width: 9rem;display:inline-block;height: 4rem;border-radius: 0.5rem;font-size: 2rem;color: #fff;border: 0.2rem solid #fff;margin: 2rem 1rem 0 1rem;}
