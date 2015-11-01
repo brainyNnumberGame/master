@@ -112,7 +112,7 @@ var GameNo = React.createClass({
 				//styleClassBack : 'front',
 				//styleClassFront : 'back'
 			})
-		},2000);
+		},1000);
 	},
 	componentDidMount:function(){
 		//console.log('componentDidMount');
@@ -229,7 +229,7 @@ var SubmitNo = React.createClass({
 			}
 		});
 		if(gameResult == true){
-			// alert("恭喜你,过关啦,马上进入下一关!");
+			//alert("恭喜你,过关啦,马上进入下一关!");
 			this.setState({
 				tipsWords : '恭喜你,过关啦,马上进入下一关!',
 				tipsVisible : true,
@@ -238,7 +238,6 @@ var SubmitNo = React.createClass({
 			if(gameInit.currentStage < gameInit.stage.length - 1) {
 				gameInit.currentStage ++;
 				localStorage.setItem('stage',gameInit.currentStage);
-				gameInit.refresh();
 			}else{
 				// alert('牛逼哄哄!通关啦!你是人类吗?');
 				this.setState({
@@ -249,14 +248,13 @@ var SubmitNo = React.createClass({
 			}
 			
 		}else{
-			// alert("很遗憾,请继续努力!");
+			//alert("很遗憾,请继续努力!");
 			this.setState({
 				tipsWords : '很遗憾,请继续努力!',
 				tipsVisible : true,
 				hasCancelButton : false
 			});
 			localStorage.setItem('stage',gameInit.currentStage);
-			gameInit.refresh();
 		}
 	},
 	refresh:function(){
@@ -294,14 +292,16 @@ var GameTips = React.createClass({
 		}
 	},
 	handleClickOk:function(){
-		gameInit.restart();
+		if(this.props.hasCancelButton != false){
+			gameInit.restart();
+		}else{
+			gameInit.refresh();
+		}
 	},
 	handleClickCancel:function(){
 		gameInit.refresh();
-		this.state.visible = false;
 	},
 	render:function(){
-		console.log(this.state)
 		var styleObjTips = {
 			display:this.props.visible == false ? 'none' : 'block'
 		};
