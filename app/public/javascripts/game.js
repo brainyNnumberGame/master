@@ -56,16 +56,35 @@ var GameNoBox = React.createClass({
 var GameNo = React.createClass({
 	getInitialState:function(){
 		return {
-			styleClass : 'flip',
-			styleClassBack : 'back flip out',
-			styleClassFront : 'front flip',
+			styleClass : 'flip-container',
+			popClass : '',
+			styleClassBack : 'back',
+			styleClassFront : 'front',
 			currentNo : 1
 		}
 	},
 	handleClick:function(){
+		if(this.state.styleClass != 'flip-container hover'){
+			if(this.state.popClass == 'pop in'){
+				this.setState({
+					popClass : ''
+				});
+			}else{
+				this.setState({
+					popClass : 'pop in'
+				});
+			}
+			var self = this;
+			setTimeout(function(){
+				self.setState({
+					popClass : ''
+				});
+			},500);
+		}
 		this.setState({
-			styleClassBack : 'back flip out',
-			styleClassFront : 'front flip in',
+			styleClass : 'flip-container',
+			styleClassBack : 'back',
+			styleClassFront : 'front',
 		});
 		this.props.no = this.props.current;
 		this.props.noArray[this.props.index] = parseInt(this.props.current); 
@@ -89,8 +108,9 @@ var GameNo = React.createClass({
 		var self = this;
 		this.timer = setTimeout(function(){
 			self.setState({
-				styleClassBack : 'back flip in',
-				styleClassFront : 'front flip out'
+				styleClass : 'flip-container hover',
+				//styleClassBack : 'front',
+				//styleClassFront : 'back'
 			})
 		},2000);
 	},
@@ -100,13 +120,15 @@ var GameNo = React.createClass({
 	},
 	render:function(){
 		return (
-			<span onTouchStart={this.handleClick}>
-				<em className={this.state.styleClassFront} ref='noItem'>
-					<i className={'bg'+this.props.no}>{this.props.no}</i>
-				</em>
-				<em className={this.state.styleClassBack+' one'} ref='noItem'>
-					
-				</em>
+			<span onTouchStart={this.handleClick} className={'no '+this.state.styleClass}>
+				<span className={'flipper '+this.state.popClass}>
+					<em className={this.state.styleClassFront} ref='noItem'>
+						<i className={'bg'+this.props.no}>{this.props.no}</i>
+					</em>
+					<em className={this.state.styleClassBack+' one'} ref='noItem'>
+						
+					</em>
+				</span>
 			</span>
 		);
 	}
